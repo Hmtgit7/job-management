@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { Job, JobFilter, CreateJobForm, BackendJob } from '../types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
