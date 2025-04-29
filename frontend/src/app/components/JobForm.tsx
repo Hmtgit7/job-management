@@ -21,7 +21,15 @@ const JobForm: React.FC<JobFormProps> = ({ onClose }) => {
 
     const onSubmit: SubmitHandler<CreateJobForm> = async (data) => {
         try {
-            await jobsApi.createJob(data);
+            // Ensure all required fields exist
+            const formData: CreateJobForm = {
+                ...data,
+                // Add missing fields with defaults if they're undefined
+                requirements: data.requirements || '',
+                responsibilities: data.responsibilities || ''
+            };
+
+            await jobsApi.createJob(formData);
             toast.success('Job Created Successfully 🎉', {
                 position: "bottom-left",
                 autoClose: 5000,
@@ -87,7 +95,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose }) => {
                             id="location"
                             className="mt-1 border-2 p-3 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         >
-                            <option value="" disabled>Choose Preferred Location</option>
+                            <option value="">Choose Preferred Location</option>
                             <option value="Coimbatore">Coimbatore</option>
                             <option value="Chennai">Chennai</option>
                             <option value="Trichy">Trichy</option>
@@ -102,7 +110,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose }) => {
                             id="jobType"
                             className="mt-1 border-2 p-3 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         >
-                            <option value="" disabled>Select Job Type</option>
+                            <option value="">Select Job Type</option>
                             <option value={JobType.FULL_TIME}>{JobType.FULL_TIME}</option>
                             <option value={JobType.PART_TIME}>{JobType.PART_TIME}</option>
                             <option value={JobType.CONTRACT}>{JobType.CONTRACT}</option>
@@ -159,6 +167,29 @@ const JobForm: React.FC<JobFormProps> = ({ onClose }) => {
                         placeholder="Please share a description to let the candidate know more about the job role"
                     />
                     {errors.jobDescription && <p className="text-red-500 text-xs mt-1">{errors.jobDescription.message}</p>}
+                </div>
+
+                {/* Optional fields for requirements and responsibilities */}
+                <div>
+                    <label htmlFor="requirements" className="block text-sm font-medium text-gray-700">Requirements</label>
+                    <textarea
+                        {...register("requirements")}
+                        id="requirements"
+                        rows={3}
+                        className="mt-1 border-2 p-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        placeholder="Requirements for the job (optional)"
+                    />
+                </div>
+
+                <div>
+                    <label htmlFor="responsibilities" className="block text-sm font-medium text-gray-700">Responsibilities</label>
+                    <textarea
+                        {...register("responsibilities")}
+                        id="responsibilities"
+                        rows={3}
+                        className="mt-1 border-2 p-2 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        placeholder="Responsibilities for the job (optional)"
+                    />
                 </div>
 
                 <div className="flex justify-between items-end">

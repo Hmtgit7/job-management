@@ -1,3 +1,4 @@
+// frontend/src/app/api/jobs/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { jobsApi } from "@/lib/api";
 import { JobFilter, JobType } from "@/types";
