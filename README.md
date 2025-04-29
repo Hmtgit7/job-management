@@ -6,7 +6,7 @@ A full-stack job posting and management application built with Next.js and NestJ
 
 Visit the deployed application here: [Job Management Portal](https://job-management-drab.vercel.app/)
 
-![Job Management Portal](https://github.com/Hmtgit7/job-management/public/image.png)
+![Job Management Portal](https://github.com/Hmtgit7/job-management/blob/main/public/image.png)
 
 ## Project Structure
 
