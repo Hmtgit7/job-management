@@ -1,12 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { RangeSlider } from '@mantine/core';
 import JobCard from './JobCard';
 import { Job, JobFilter, JobType } from '@/types';
 import { jobsApi } from '@/lib/api';
-import searchImg  from "../../public/search.png"
+import searchImg from "../../public/search.png"
 import locationImg from "../../public/Location.png"
 
 interface FilterCardProps {
@@ -23,7 +23,8 @@ const FilterCard: React.FC<FilterCardProps> = ({ initialJobs }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     // Function to filter jobs based on current filter settings
-    const filterJobs = async () => {
+    const filterJobs = useCallback(async () => {
+
         setIsLoading(true);
         try {
             // Create filter object
@@ -75,12 +76,12 @@ const FilterCard: React.FC<FilterCardProps> = ({ initialJobs }) => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [jobs, searchQuery, location, jobType, salaryRange]);
 
     // Apply filters when filter criteria change
     useEffect(() => {
         filterJobs();
-    }, [searchQuery, location, jobType, salaryRange]);
+    }, [filterJobs]);
 
     // Apply filters when initial jobs are updated
     useEffect(() => {

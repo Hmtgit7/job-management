@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jobsApi } from "@/lib/api";
-import { JobFilter } from "@/types";
+import { JobFilter, JobType } from "@/types";
 
 // GET /api/jobs - Get all jobs or filtered jobs
 export async function GET(request: NextRequest) {
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
         const filters: JobFilter = {
             searchQuery: searchParams.get('searchQuery') || undefined,
             location: searchParams.get('location') || undefined,
-            jobType: searchParams.get('jobType') as any || undefined,
+            jobType: searchParams.get('jobType') as JobType | null || undefined,
             minSalary: searchParams.get('minSalary') ? parseInt(searchParams.get('minSalary')!) : undefined,
             maxSalary: searchParams.get('maxSalary') ? parseInt(searchParams.get('maxSalary')!) : undefined,
         };

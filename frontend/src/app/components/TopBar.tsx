@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal } from '@mantine/core';
 import JobForm from './JobForm';
@@ -9,7 +8,6 @@ import React from 'react';
 import profile from "../../public/logo.png"
 
 const TopBar: React.FC = () => {
-    const router = useRouter();
     const [opened, { open, close }] = useDisclosure(false);
 
     return (
