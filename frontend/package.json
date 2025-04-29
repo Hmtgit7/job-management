@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "check-all": "npm run typecheck && npm run lint"
   },
   "dependencies": {
     "@mantine/core": "^7.17.5",

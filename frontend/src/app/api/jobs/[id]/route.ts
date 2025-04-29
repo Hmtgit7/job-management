@@ -1,3 +1,4 @@
+// src/app/api/jobs/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { jobsApi } from "@/lib/api";
 
@@ -18,7 +19,7 @@ export async function GET(
     }
 }
 
-// PATCH /api/jobs/[id] - Update a specific job
+// Make sure other route handlers use the same parameter pattern
 export async function PATCH(
     request: NextRequest,
     { params }: { params: { id: string } }
@@ -36,7 +37,6 @@ export async function PATCH(
     }
 }
 
-// DELETE /api/jobs/[id] - Delete a specific job
 export async function DELETE(
     request: NextRequest,
     { params }: { params: { id: string } }
