@@ -1,98 +1,207 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Job Management Portal - Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+The backend of the Job Management Portal is built with NestJS, TypeScript, and PostgreSQL with TypeORM.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- RESTful API for job management
+- TypeScript for type safety
+- PostgreSQL database with TypeORM for data persistence
+- Validation using class-validator
+- Environment-based configuration
+- Comprehensive error handling
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Technology Stack
 
-## Project setup
+- **NestJS**: Progressive Node.js framework
+- **TypeScript**: For type-safe code
+- **PostgreSQL**: Relational database
+- **TypeORM**: Object-Relational Mapping tool
+- **class-validator**: For input validation
+- **Jest**: For testing
 
-```bash
-$ npm install
+## Project Structure
+
+```
+backend/
+├── src/               # Source files
+│   ├── config/        # Application configuration
+│   ├── jobs/          # Jobs module
+│   │   ├── dto/       # Data Transfer Objects
+│   │   ├── entities/  # Database entities
+│   │   ├── jobs.controller.ts  # API controllers
+│   │   ├── jobs.service.ts     # Business logic
+│   │   └── jobs.module.ts      # Module definition
+│   ├── app.module.ts  # Main application module
+│   └── main.ts        # Application entry point
+├── test/              # Test files
+├── .env               # Environment variables
+├── .eslintrc.json     # ESLint configuration
+├── Dockerfile         # Docker configuration
+├── nest-cli.json      # NestJS CLI configuration
+├── package.json       # Dependencies and scripts
+└── tsconfig.json      # TypeScript configuration
 ```
 
-## Compile and run the project
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+- PostgreSQL database
+
+### Installation
 
 ```bash
-# development
-$ npm run start
+# Clone the repository (if not already done)
+git clone https://github.com/Hmtgit7/job-management.git
+cd job-management/backend
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Install dependencies
+npm install
 ```
 
-## Run tests
+### Configuration
+
+Create a `.env` file in the backend directory:
+
+```
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+DB_NAME=job_management
+DB_SYNC=true
+DB_LOGGING=false
+
+# Application Configuration
+PORT=3001
+```
+
+### Development
 
 ```bash
-# unit tests
-$ npm run test
+# Run the development server
+npm run start:dev
+```
 
-# e2e tests
-$ npm run test:e2e
+The API will be available at [http://localhost:3001](http://localhost:3001)
 
-# test coverage
-$ npm run test:cov
+### Build for Production
+
+```bash
+# Build the application
+npm run build
+
+# Start the production server
+npm run start:prod
+```
+
+### Docker Build
+
+```bash
+# Build the Docker image
+docker build -t job-management-backend .
+
+# Run the container
+docker run -p 3001:3001 \
+  -e DB_HOST=your-db-host \
+  -e DB_PORT=5432 \
+  -e DB_USERNAME=postgres \
+  -e DB_PASSWORD=postgres \
+  -e DB_NAME=job_management \
+  job-management-backend
+```
+
+## API Endpoints
+
+### Jobs
+
+| Method | Endpoint        | Description                    | Request Body    | Response          |
+|--------|-----------------|--------------------------------|-----------------|-------------------|
+| GET    | /api/jobs       | Get all jobs with filtering    | Query parameters| Array of Job      |
+| POST   | /api/jobs       | Create a new job               | CreateJobDto    | Job               |
+| GET    | /api/jobs/:id   | Get a specific job             | -               | Job               |
+| PATCH  | /api/jobs/:id   | Update a job                   | UpdateJobDto    | Job               |
+| DELETE | /api/jobs/:id   | Delete a job                   | -               | -                 |
+
+### Query Parameters for GET /api/jobs
+
+- `title`: Filter by job title (string)
+- `location`: Filter by job location (string)
+- `jobType`: Filter by job type (enum: 'Full-time', 'Part-time', 'Contract', 'Internship')
+- `minSalary`: Filter by minimum salary (number)
+- `maxSalary`: Filter by maximum salary (number)
+
+## Data Models
+
+### Job Entity
+
+```typescript
+export enum JobType {
+    FULL_TIME = 'Full-time',
+    PART_TIME = 'Part-time',
+    CONTRACT = 'Contract',
+    INTERNSHIP = 'Internship',
+}
+
+export class Job {
+    id: string;
+    title: string;
+    companyName: string;
+    location: string;
+    jobType: JobType;
+    salaryRange: string;
+    description: string;
+    requirements: string;
+    responsibilities: string;
+    applicationDeadline: Date;
+    createdAt: Date;
+    updatedAt: Date;
+}
+```
+
+## Testing
+
+```bash
+# Run tests
+npm run test
+
+# Run end-to-end tests
+npm run test:e2e
+
+# Run test coverage
+npm run test:cov
 ```
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Docker Deployment
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+The included Dockerfile allows for easy containerization:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker build -t job-management-backend .
+docker run -p 3001:3001 -e DB_HOST=your-db-host job-management-backend
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+For full stack deployment with Docker Compose, refer to the root [README.md](../README.md).
 
-## Resources
+### Render.com or Heroku Deployment
 
-Check out a few resources that may come in handy when working with NestJS:
+1. Create a new PostgreSQL database
+2. Deploy the NestJS application
+3. Configure environment variables:
+   - Database connection details
+   - `PORT`: Application port
+   - `NODE_ENV`: Set to 'production'
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Contributing
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License.

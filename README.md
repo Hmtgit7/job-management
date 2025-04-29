@@ -1,155 +1,190 @@
-# Job Management Admin Interface
+# Job Management Portal
 
-A full-stack application for creating and managing job postings. This project includes a frontend built with Next.js, Mantine UI, and React Hook Form, and a backend built with NestJS and PostgreSQL.
+A full-stack job posting and management application built with Next.js and NestJS.
+
+## Live Demo
+
+Visit the deployed application here: [Job Management Portal](https://job-management-drab.vercel.app/)
+
+![Job Management Portal](https://github.com/Hmtgit7/job-management/public/image.png)
 
 ## Project Structure
 
-The project is organized into two main directories:
+This project is organized as a monorepo with the following structure:
 
-- `frontend/`: Next.js application
-- `backend/`: NestJS application
+```
+job-management/
+├── frontend/         # Next.js TypeScript frontend
+│   ├── src/          # Source code
+│   ├── public/       # Static assets
+│   ├── Dockerfile    # Frontend Docker configuration
+│   └── README.md     # Frontend documentation
+├── backend/          # NestJS TypeScript backend
+│   ├── src/          # Source code
+│   ├── Dockerfile    # Backend Docker configuration
+│   └── README.md     # Backend documentation
+├── nginx/            # Nginx configuration for production
+│   └── nginx.conf    # Nginx config file
+├── docker-compose.yml # Docker Compose configuration
+└── README.md         # Root documentation
+```
 
 ## Features
 
-- Job listing page with filter capabilities
-- Job creation and editing forms with validation
-- Responsive design that matches the provided Figma design
-- Complete CRUD operations for job postings
-- Type-safe communication between frontend and backend
+- Create and post job openings
+- Filter jobs by title, location, job type, and salary range
+- Responsive design for all device sizes
+- Full stack TypeScript implementation
+- REST API with PostgreSQL database
 
-## Technology Stack
+## Technologies Used
 
 ### Frontend
-- Next.js 14
-- Mantine UI 7
-- React Hook Form
+- Next.js 15.3 (App Router)
 - TypeScript
-- Mantine Notifications
+- Mantine UI
+- React Hook Form
+- Tailwind CSS
+- Axios
 
 ### Backend
 - NestJS
-- TypeORM
-- PostgreSQL
-- Class-validator
 - TypeScript
+- PostgreSQL with TypeORM
+- Class Validator
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or later)
-- PostgreSQL (v14 or later)
+- Node.js 18+ 
 - npm or yarn
+- PostgreSQL (local or Docker)
 
-### Backend Setup
+### Running with Docker
 
-1. Create a PostgreSQL database named `job_management`
+The easiest way to run the entire application is with Docker Compose:
 
-2. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/Hmtgit7/job-management.git
+cd job-management
 
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
+# Start the application
+docker-compose up -d
+```
 
-4. Create a `.env` file based on the provided example:
-   ```
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_USERNAME=postgres
-   DB_PASSWORD=postgres
-   DB_NAME=job_management
-   DB_SYNC=true
-   DB_LOGGING=false
-   PORT=3001
-   ```
+This will start:
+- Frontend on http://localhost:3000
+- Backend API on http://localhost:3001
+- PostgreSQL database on port 5432
 
-5. Start the backend server:
-   ```bash
-   npm run start:dev
-   ```
+### Running Locally (Without Docker)
 
-The backend will be available at http://localhost:3001/api
+#### Backend Setup
 
-### Frontend Setup
+```bash
+# Navigate to the backend directory
+cd backend
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+# Install dependencies
+npm install
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+# Configure environment variables
+cp .env.example .env
+# Edit .env with your database settings
 
-3. Create a `.env.local` file:
-   ```
-   NEXT_PUBLIC_API_URL=http://localhost:3001/api
-   ```
+# Start the development server
+npm run start:dev
+```
 
-4. Start the frontend development server:
-   ```bash
-   npm run dev
-   ```
+#### Frontend Setup
 
-The frontend will be available at http://localhost:3000
+```bash
+# Navigate to the frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Configure environment variables
+cp .env.example .env
+# Set NEXT_PUBLIC_BASE_URL to point to your backend
+
+# Start the development server
+npm run dev
+```
 
 ## Deployment
 
+### Frontend Deployment (Vercel)
+
+The frontend is deployed on Vercel: [https://job-management-drab.vercel.app/](https://job-management-drab.vercel.app/)
+
+For your own deployment:
+1. Fork this repository
+2. Connect it to Vercel
+3. Set environment variables:
+   - `NEXT_PUBLIC_BASE_URL`: URL of your backend API
+
 ### Backend Deployment
 
-1. Build the NestJS application:
+The backend can be deployed to any Node.js hosting service like Render, Heroku, or AWS:
+
+1. Set up a PostgreSQL database
+2. Deploy the NestJS application
+3. Configure environment variables for database connection
+
+### Production Deployment with Nginx
+
+For a production environment, you can use Nginx as a reverse proxy:
+
+1. Create a directory for Nginx configuration:
    ```bash
-   npm run build
+   mkdir -p nginx
    ```
 
-2. Start the production server:
+2. Copy the provided nginx.conf to this directory:
    ```bash
-   npm run start:prod
+   cp nginx.conf.example nginx/nginx.conf
    ```
 
-### Frontend Deployment
+3. Update your docker-compose.yml to include Nginx:
+   ```yaml
+   services:
+     # ... existing services
 
-1. Build the Next.js application:
-   ```bash
-   npm run build
+     nginx:
+       image: nginx:alpine
+       ports:
+         - "80:80"
+         - "443:443"
+       volumes:
+         - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+         - ./nginx/ssl:/etc/nginx/ssl
+       depends_on:
+         - frontend
+         - backend
+       restart: unless-stopped
    ```
 
-2. Start the production server:
-   ```bash
-   npm run start
-   ```
+4. Generate SSL certificates for HTTPS or use Let's Encrypt
+5. Update the domain name in the nginx.conf file
 
-## Implementation Details
+## Documentation
 
-### Backend
+- [Frontend README](frontend/README.md)
+- [Backend README](backend/README.md)
+- [API Documentation](backend/README.md#api-endpoints)
 
-The backend is built with NestJS and uses TypeORM to interact with a PostgreSQL database. It follows a modular architecture with the following components:
+## Contributing
 
-- **Entities**: Define the database schema
-- **DTOs**: Define data transfer objects for request validation
-- **Controllers**: Handle HTTP requests
-- **Services**: Implement business logic
-- **Modules**: Organize related components
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Frontend
+## License
 
-The frontend is built with Next.js and uses Mantine UI for the user interface. It follows a component-based architecture with:
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-- **Pages**: Define routes and page layouts
-- **Components**: Reusable UI components
-- **Hooks**: Custom React hooks for state management
-- **API Client**: Handles communication with the backend
-- **Types**: TypeScript definitions for type safety
+## Acknowledgements
 
-## Design Implementation
-
-The implementation closely follows the Figma design, ensuring:
-
-- Consistent spacing, colors, and typography
-- Responsive layout that works on different screen sizes
-- Interactive elements like buttons, forms, and filters match the design
+- Assignment and design inspiration from Cybermind Works
