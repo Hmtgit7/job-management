@@ -5,23 +5,24 @@ import { Job, JobFilter, CreateJobForm } from '../types';
 const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001/api';
 
 const api = axios.create({
-    baseURL: API_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 export const jobsApi = {
-    // Get all jobs with optional filtering
-    getJobs: async (filters?: JobFilter): Promise<Job[]> => {
-        try {
-            const { data } = await api.get('/jobs', { params: filters });
-            return data;
-        } catch (error) {
-            console.error('Error fetching jobs:', error);
-            throw error;
-        }
-    },
+  // Get all jobs with optional filtering
+  getJobs: async (filters?: JobFilter): Promise<Job[]> => {
+    try {
+      const { data } = await api.get('/jobs', { params: filters });
+      return data;
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+      // Return an empty array instead of throwing
+      return [];
+    }
+  },
 
     // Get a single job by ID
     getJob: async (id: string): Promise<Job> => {

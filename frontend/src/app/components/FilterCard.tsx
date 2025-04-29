@@ -6,6 +6,8 @@ import { RangeSlider } from '@mantine/core';
 import JobCard from './JobCard';
 import { Job, JobFilter, JobType } from '@/types';
 import { jobsApi } from '@/lib/api';
+import searchImg  from "../../public/search.png"
+import locationImg from "../../public/Location.png"
 
 interface FilterCardProps {
     initialJobs: Job[];
@@ -91,7 +93,7 @@ const FilterCard: React.FC<FilterCardProps> = ({ initialJobs }) => {
             <div className='w-full bg-white h-auto md:h-32 space-y-4 xl:p-10 flex flex-col md:flex-row md:justify-between md:items-center md:space-x-4 shadow-md rounded-md'>
                 <div className='flex items-center space-x-5 justify-center mt-5'>
                     <div>
-                        <Image src='/search.png' width={20} height={20} alt="Search icon" />
+                        <Image src={searchImg} width={20} height={20} alt="Search icon" />
                     </div>
                     <input
                         type="text"
@@ -105,7 +107,7 @@ const FilterCard: React.FC<FilterCardProps> = ({ initialJobs }) => {
 
                 <div className='flex items-center space-x-5 justify-center'>
                     <div>
-                        <Image src='/Location.png' width={16} height={16} alt="Location icon" />
+                        <Image src={locationImg} width={16} height={16} alt="Location icon" />
                     </div>
                     <select
                         className='xl:pr-16 text-gray-700 bg-transparent border-none focus:outline-none'

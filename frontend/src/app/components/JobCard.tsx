@@ -6,6 +6,12 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce } from 'react-toastify';
 import { Job } from '@/types';
+import packageImg from "../../public/package.png"
+import amazonLogoImg from "../../public/amazonLogo.png"
+import profileImg from "../../public/profile.png"
+import orgImg from "../../public/org.png"
+
+
 
 interface JobCardProps {
     job: Job;
@@ -56,7 +62,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
                         style={{ background: 'linear-gradient(to bottom, #FEFEFD 0%, #F1F1F1 100%)' }}
                     >
                         <div>
-                            <Image src='/amazonLogo.png' width={50} height={50} alt="Company Logo" />
+                            <Image src={amazonLogoImg} width={50} height={50} alt="Company Logo" />
                         </div>
                     </div>
                     <div className='bg-blue-100 w-16 h-8 flex items-center justify-center rounded-lg mt-2 md:mt-0'>
@@ -67,15 +73,15 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
 
                 <div className='flex flex-wrap md:flex-nowrap items-center gap-2 md:space-x-4 mt-4'>
                     <div className='flex items-center space-x-2'>
-                        <Image src='/profile.png' width={20} height={20} alt='Profile Icon' />
+                        <Image src={profileImg} width={20} height={20} alt='Profile Icon' />
                         <span className='text-sm'>{job.jobType}</span>
                     </div>
                     <div className='flex items-center space-x-2'>
-                        <Image src='/org.png' width={20} height={20} alt='Organization Icon' />
+                        <Image src={orgImg} width={20} height={20} alt='Organization Icon' />
                         <span className='text-sm'>{job.location}</span>
                     </div>
                     <div className='flex items-center space-x-2'>
-                        <Image src='/package.png' width={20} height={20} alt='Salary Icon' />
+                        <Image src={packageImg} width={20} height={20} alt='Salary Icon' />
                         <span className='text-sm'>{formatSalary(job.salaryEnd)}</span>
                     </div>
                 </div>

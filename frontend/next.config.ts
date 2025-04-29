@@ -1,9 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
-    domains: ['localhost', 'cybermind-works.onrender.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cybermind-works.onrender.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+    ],
   },
   async rewrites() {
     return [

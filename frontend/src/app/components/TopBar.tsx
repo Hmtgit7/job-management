@@ -6,6 +6,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal } from '@mantine/core';
 import JobForm from './JobForm';
 import React from 'react';
+import profile from "../../public/logo.png"
 
 const TopBar: React.FC = () => {
     const router = useRouter();
@@ -16,7 +17,7 @@ const TopBar: React.FC = () => {
             <div className='justify-center flex p-4'>
                 <div className='w-full md:w-3/5 h-20 flex items-center justify-between rounded-full border-2 px-4'>
                     <div className='flex items-center'>
-                        <Image src='/logo.png' width={40} height={40} alt="Logo" />
+                        <Image src={profile} width={40} height={40} alt="Logo" />
                     </div>
                     <div className='hidden xl:flex items-center space-x-8'>
                         <h2 className="text-sm md:text-base cursor-pointer">Home</h2>
