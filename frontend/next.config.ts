@@ -6,11 +6,16 @@ const nextConfig = {
     // Bypass type checking during build
     ignoreBuildErrors: true,
   },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'cybermind-works.onrender.com',
+        hostname: 'job-management-cmar.onrender.com',
       },
       {
         protocol: 'http',

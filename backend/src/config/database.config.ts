@@ -13,5 +13,7 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
     entities: [Job],
     synchronize: configService.get<boolean>('DB_SYNC', true), // Be careful with this in production
     logging: configService.get<boolean>('DB_LOGGING', false),
+    ssl: {
+        rejectUnauthorized: configService.get<boolean>('DB_SSL_REJECT_UNAUTHORIZED', false)
+    },
 });
-
