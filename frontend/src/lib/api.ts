@@ -2,8 +2,10 @@
 import axios from 'axios';
 import { Job, JobFilter, CreateJobForm, BackendJob } from '../types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+// Use the environment variable with correct naming
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://job-management-cmar.onrender.com';
 
+// Create axios instance with the complete base URL
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -31,7 +33,7 @@ const mapJobToFrontend = (job: BackendJob): Job => {
   // Extract salary range if it exists
   let salaryStart = '0';
   let salaryEnd = '0';
-  
+
   if (job.salaryRange) {
     const parts = job.salaryRange.split('-');
     if (parts.length === 2) {
@@ -39,7 +41,7 @@ const mapJobToFrontend = (job: BackendJob): Job => {
       salaryEnd = parts[1];
     }
   }
-  
+
   return {
     id: job.id,
     jobTitle: job.title,
@@ -61,7 +63,8 @@ export const jobsApi = {
   // Get all jobs with optional filtering
   getJobs: async (filters?: JobFilter): Promise<Job[]> => {
     try {
-      const { data } = await api.get('/jobs', { params: filters });
+      // Make sure to use the full API endpoint path
+      const { data } = await api.get('/api/jobs', { params: filters });
       return Array.isArray(data) ? data.map(mapJobToFrontend) : [];
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -73,7 +76,7 @@ export const jobsApi = {
   // Get a single job by ID
   getJob: async (id: string): Promise<Job> => {
     try {
-      const { data } = await api.get(`/jobs/${id}`);
+      const { data } = await api.get(`/api/jobs/${id}`);
       return mapJobToFrontend(data);
     } catch (error) {
       console.error(`Error fetching job with ID ${id}:`, error);
@@ -86,10 +89,10 @@ export const jobsApi = {
     try {
       // Map the frontend model to the backend model
       const backendJob = mapCreateJobToBackend(job);
-      
+
       // Send the mapped data to the backend
-      const { data } = await api.post('/jobs', backendJob);
-      
+      const { data } = await api.post('/api/jobs', backendJob);
+
       // Map the response back to the frontend model
       return mapJobToFrontend(data);
     } catch (error) {
@@ -103,8 +106,8 @@ export const jobsApi = {
     try {
       // Map the frontend model to the backend model
       const backendJob = mapCreateJobToBackend(job as CreateJobForm);
-      
-      const { data } = await api.patch(`/jobs/${id}`, backendJob);
+
+      const { data } = await api.patch(`/api/jobs/${id}`, backendJob);
       return mapJobToFrontend(data);
     } catch (error) {
       console.error(`Error updating job with ID ${id}:`, error);
@@ -115,7 +118,7 @@ export const jobsApi = {
   // Delete a job
   deleteJob: async (id: string): Promise<void> => {
     try {
-      await api.delete(`/jobs/${id}`);
+      await api.delete(`/api/jobs/${id}`);
     } catch (error) {
       console.error(`Error deleting job with ID ${id}:`, error);
       throw error;
@@ -132,8 +135,8 @@ export const jobsApi = {
         jobType: filters.jobType,
         // Need to handle salary differently as backend expects a range string
       };
-      
-      const { data } = await api.get('/jobs', { params: backendFilters });
+
+      const { data } = await api.get('/api/jobs', { params: backendFilters });
       return Array.isArray(data) ? data.map(mapJobToFrontend) : [];
     } catch (error) {
       console.error('Error filtering jobs:', error);

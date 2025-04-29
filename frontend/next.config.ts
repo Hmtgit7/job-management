@@ -15,6 +15,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'cybermind-works.onrender.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'job-management-cmar.onrender.com',
       },
       {
@@ -27,9 +31,9 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: process.env.NEXT_PUBLIC_BASE_URL
-          ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/:path*`
-          : 'http://localhost:3001/api/:path*',
+        destination: process.env.NEXT_PUBLIC_API_URL
+          ? `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`
+          : 'https://job-management-cmar.onrender.com/api/:path*',
       },
     ];
   },
